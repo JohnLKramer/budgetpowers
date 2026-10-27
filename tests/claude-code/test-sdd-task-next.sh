@@ -94,6 +94,17 @@ PLAN
         fail "--complete without a recorded BASE exits 3 and records nothing (rc=$rc)"
     fi
 
+    # The message must not send the controller to --start: after the task's
+    # commits exist that would record today's HEAD and leave an empty range.
+    local err
+    err="$(cd "$repo" && "$SDD_SCRIPTS/task-next" plan.md --complete 1 "review clean" 2>&1 >/dev/null)" || true
+    if [[ "$err" == *"$ws/task-1-base"* && "$err" != *"run --start"* ]]; then
+        pass "the missing-BASE message names the BASE file and does not suggest --start"
+    else
+        fail "the missing-BASE message names the BASE file and does not suggest --start"
+        echo "    got: $err"
+    fi
+
     # --- starting a task that is not in the plan ---
     rc=0
     (cd "$repo" && "$SDD_SCRIPTS/task-next" plan.md --start 9 >/dev/null 2>&1) || rc=$?

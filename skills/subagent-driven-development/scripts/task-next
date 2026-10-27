@@ -60,7 +60,9 @@ dir=$("${BASH:-bash}" "$sdd/sdd-workspace" "$plan")
 if [ -n "$complete_n" ]; then
   complete_base_file="$dir/task-${complete_n}-base"
   [ -f "$complete_base_file" ] || {
-    echo "task-next: no recorded BASE for Task $complete_n (run --start $complete_n first; workspace: $dir)" >&2
+    echo "task-next: no recorded BASE for Task $complete_n at $complete_base_file." >&2
+    echo "Running --start $complete_n now would record today's HEAD and leave its review range empty." >&2
+    echo "Find the commit Task $complete_n started from and write its SHA to that file, or stop." >&2
     exit 3
   }
 fi
