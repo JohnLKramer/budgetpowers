@@ -201,16 +201,20 @@ In one call it extracts the task's full text to a uniquely named brief file
 and records BASE, and it prints both (`brief: <path>`, `base: <sha>`). Keep
 BASE — the review package and fix-round diffs need it.
 
-- **Task brief:** the file `task-next` printed. Compose the dispatch so the
-  brief stays the single source of
-  requirements. Your dispatch should contain: (1) one line on where this
-  task fits in the project; (2) the brief path, introduced as "read this
-  first — it is your requirements, with the exact values to use verbatim";
-  (3) interfaces and decisions from earlier tasks that the brief cannot
-  know; (4) your resolution of any ambiguity you noticed in the brief;
-  (5) the report-file path and report contract. Exact values (numbers,
-  magic strings, signatures, test cases) appear only in the brief. Never
-  make a subagent read the whole plan file.
+- **Dispatch by reference:** the dispatch prompt is a fixed short form, not
+  the filled-in template. The subagent reads the template itself, as input
+  on its own model, instead of you writing it out as output on yours:
+
+  `Read <skill dir>/implementer-prompt.md, then your brief at <brief path>. Report to <report path>. Work from <dir>. You never dispatch subagents. Deltas: <3–5 lines>.`
+
+  `<skill dir>` is this skill's absolute directory. The model and
+  description go on the dispatch call, never in the prompt text.
+- **Task brief:** the file `task-next` printed stays the single source of
+  requirements. The Deltas carry only what the brief cannot know: one line
+  on where this task fits in the project; interfaces and decisions from
+  earlier tasks; your resolution of any ambiguity you noticed in the
+  brief. Exact values (numbers, magic strings, signatures, test cases)
+  appear only in the brief. Never make a subagent read the whole plan file.
 - **Report file:** name the implementer's report file after the brief
   (brief `…/task-N-brief.md` → report `…/task-N-report.md`) and put it in
   the dispatch prompt. The implementer writes the full report there and
@@ -220,8 +224,8 @@ BASE — the review package and fix-round diffs need it.
   later dispatches — a real session's dispatch hit 42k chars of which 99%
   was pasted history. A fresh subagent needs its task, the interfaces it
   touches, and the global constraints. Nothing else.
-- The dispatch carries the no-subagents contract (it is in the
-  implementer template): the implementer never dispatches subagents —
+- The dispatch carries the no-subagents contract in one line, and the
+  implementer template carries the full text: the implementer never dispatches subagents —
   not helpers, and never a reviewer. Review arrives from you, after the
   report. In real sessions, every reviewer a worker spawned duplicated
   the task review the controller dispatched anyway — a full extra
@@ -268,6 +272,13 @@ needed.
 - **Reviewer inputs:** the task reviewer gets three paths — the same brief
   file, the report file, and the review package — plus the global
   constraints that bind the task.
+- **Dispatch by reference:** as for the implementer, the reviewer's
+  dispatch prompt is a fixed short form, and the reviewer reads the
+  template itself:
+
+  `Read <skill dir>/task-reviewer-prompt.md. BRIEF_FILE=<path> REPORT_FILE=<path> DIFF_FILE=<path> BASE_SHA=<sha> HEAD_SHA=<sha>. GLOBAL_CONSTRAINTS: <verbatim lines>.`
+
+  The model and description go on the dispatch call, never in the prompt text.
 - The global-constraints block you hand the reviewer is its attention
   lens. Copy the binding requirements verbatim from the plan's Global
   Constraints section or the spec: exact values, exact formats, and the

@@ -2,6 +2,13 @@
 
 Use this template when dispatching an implementer subagent.
 
+**Dispatched by reference.** If your dispatch told you to read this file, the
+`prompt:` block below is your instructions. Ignore the `Subagent`,
+`description:` and `model:` lines; they are for the controller. Fill each
+`[PLACEHOLDER]` from your dispatch message: the brief path, the report path
+and the working directory are in it, `[Scene-setting]` is its Deltas, and the
+task number and name come from the brief's heading.
+
 ```
 Subagent (general-purpose):
   description: "Implement Task N: [task name]"
