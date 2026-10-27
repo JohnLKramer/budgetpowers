@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# Close one task and open the next at an SDD task boundary in a single call,
+# because every separate bookkeeping call is a turn that re-reads the whole
+# controller context. --complete appends the finished task's ledger line;
+# --start writes the next task's brief and records its BASE, the commit the
+# task's review range is cut from. Either flag works alone: the first task
+# has nothing to complete, the last has nothing to start.
+#
+# Usage: task-next PLAN_FILE [--complete M RESULT] [--start N]
+#   RESULT is "review clean", or "<K> parked" after a tripped breaker.
+# Prints, in this order and only for the flags given:
+#   ledger: <the line appended to progress.md>
+#   brief:  <path to task N's brief file>
+#   base:   <full SHA of HEAD>
+# BASE is also stored at <workspace>/task-N-base, which --complete reads
+# back for the commit range in the ledger line.
+# Everything is checked before anything is written, so a failure leaves no
+# ledger line and no BASE behind.
+# Exit: 2 usage or bad RESULT; 3 no recorded BASE for the completed task, or
+# the started task is not in the plan; 4 the started task already has a BASE
+# (starting it again would move BASE and drop its earlier commits from the
+# review range; delete the task-N-base file to restart it on purpose).
+set -euo pipefail
+
+usage() {
+  echo "usage: task-next PLAN_FILE [--complete M RESULT] [--start N]" >&2
+  exit 2
+}
+
+[ $# -ge 1 ] || usage
+plan=$1
+shift
+
+complete_n=""
+result=""
+start_n=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --complete) [ $# -ge 3 ] || usage; complete_n=$2; result=$3; shift 3 ;;
+    --start) [ $# -ge 2 ] || usage; start_n=$2; shift 2 ;;
+    *) usage ;;
+  esac
+done
+{ [ -n "$complete_n" ] || [ -n "$start_n" ]; } || usage
+
+[ -f "$plan" ] || { echo "no such plan file: $plan" >&2; exit 2; }
+for n in "$complete_n" "$start_n"; do
+  case "$n" in
+    ''|*[!0-9]*) [ -z "$n" ] || { echo "task-next: task number must be digits: $n" >&2; exit 2; } ;;
+  esac
+done
+if [ -n "$complete_n" ]; then
+  [[ "$result" =~ ^(review\ clean|[0-9]+\ parked)$ ]] ||
+    { echo "task-next: RESULT must be 'review clean' or '<K> parked', got: '$result'" >&2; exit 2; }
+fi
+
+sdd="$(cd "$(dirname "$0")" && pwd)"
+dir=$("${BASH:-bash}" "$sdd/sdd-workspace" "$plan")
+
+if [ -n "$complete_n" ]; then
+  complete_base_file="$dir/task-${complete_n}-base"
+  [ -f "$complete_base_file" ] || {
+    echo "task-next: no recorded BASE for Task $complete_n at $complete_base_file." >&2
+    echo "Running --start $complete_n now would record today's HEAD and leave its review range empty." >&2
+    echo "Find the commit Task $complete_n started from and write its SHA to that file, or stop." >&2
+    exit 3
+  }
+fi
+
+if [ -n "$start_n" ]; then
+  start_base_file="$dir/task-${start_n}-base"
+  [ ! -e "$start_base_file" ] || {
+    echo "task-next: Task $start_n already started at BASE $(cat "$start_base_file"); delete $start_base_file to restart it" >&2
+    exit 4
+  }
+  out=$("${BASH:-bash}" "$sdd/task-brief" "$plan" "$start_n")
+  brief=$(printf '%s\n' "$out" | sed -n 's/^wrote \(.*\): [0-9][0-9]* lines$/\1/p')
+  [ -n "$brief" ] || { echo "task-brief did not report a path: $out" >&2; exit 1; }
+fi
+
+if [ -n "$complete_n" ]; then
+  ledger="$dir/progress.md"
+  [ -f "$ledger" ] || printf '# SDD ledger — plan: %s\n' "$plan" > "$ledger"
+  line="Task $complete_n: complete (commits $(git rev-parse --short=7 "$(cat "$complete_base_file")")..$(git rev-parse --short=7 HEAD), $result)"
+  printf '%s\n' "$line" >> "$ledger"
+  echo "ledger: $line"
+fi
+
+if [ -n "$start_n" ]; then
+  base=$(git rev-parse HEAD)
+  printf '%s\n' "$base" > "$start_base_file"
+  echo "brief: $brief"
+  echo "base: $base"
+fi

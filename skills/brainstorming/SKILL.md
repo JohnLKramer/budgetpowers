@@ -225,8 +225,12 @@ builder check.
 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`, committed.
 Otherwise, ask. Your human partner's preferences override both.
 
-**Builder check** (for a project): dispatch a fresh subagent with
-`builder-check-prompt.md` in this directory. When you tell your human
+**Builder check** (for a project): when the design has more than one
+component, or new interfaces other people depend on, dispatch a fresh
+subagent with `builder-check-prompt.md` in this directory. A project with a
+single component and no such interfaces skips the dispatch: read the
+document as that builder yourself, and sort what you'd ask into the piles
+below. If you dispatch, when you tell your human
 partner you're writing it up, say a reviewer will read it first and you
 may come back once with a few questions. Don't hand over the document
 until the check is back. Sort what the builder asks into three piles:
