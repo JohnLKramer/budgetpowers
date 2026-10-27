@@ -1,6 +1,6 @@
-# Testing Superpowers
+# Testing Budgetpowers
 
-Superpowers has two distinct kinds of tests, each in its own directory:
+Budgetpowers has two distinct kinds of tests, each in its own directory:
 
 - **`tests/`** — does the plugin's non-LLM code work? Bash + node + python integration tests for brainstorm-server JS, OpenCode plugin loading, codex-plugin sync, and analysis utilities.
 - **`evals/`** — do agents behave correctly on real LLM sessions? Python harness driving real tmux sessions of Claude Code / Codex / Gemini CLI, with an LLM actor and verifier judging skill compliance.

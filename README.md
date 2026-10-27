@@ -1,6 +1,6 @@
-# Superpowers
+# Budgetpowers
 
-Superpowers is a complete software development methodology for your coding agents, built on top of a set of composable skills and some initial instructions that make sure your agent uses them.
+Budgetpowers is a complete software development methodology for your coding agents, built on top of a set of composable skills and some initial instructions that make sure your agent uses them.
 
 ## Table of Contents
 
@@ -43,7 +43,7 @@ After you've signed off on the design, your agent puts together an implementatio
 
 Next up, once you say "go", it launches a *subagent-driven-development* process, having agents work through each engineering task, inspecting and reviewing their work, and continuing forward. It's not uncommon for your agent to work autonomously for a couple hours at a time without deviating from the plan you put together.
 
-There's a bunch more to it, but that's the core of the system. And because the skills trigger automatically, you don't need to do anything special. Your coding agent just has Superpowers.
+There's a bunch more to it, but that's the core of the system. And because the skills trigger automatically, you don't need to do anything special. Your coding agent just has Budgetpowers.
 
 ## Commercial Services
 
@@ -375,7 +375,7 @@ Read [the original release announcement](https://blog.fsck.com/2025/10/09/superp
 
 ## Contributing
 
-The general contribution process for Superpowers is below. Keep in mind that we don't generally accept contributions of new skills and that any updates to skills must work across all of the coding agents we support. We also don't accept agent-written PRs that fix issues filed by someone else unless a maintainer asked for one, even when you hit the same problem; add your report to the existing issue instead.
+The general contribution process for Budgetpowers is below. Keep in mind that we don't generally accept contributions of new skills and that any updates to skills must work across all of the coding agents we support. We also don't accept agent-written PRs that fix issues filed by someone else unless a maintainer asked for one, even when you hit the same problem; add your report to the existing issue instead.
 
 1. Fork the repository
 2. Switch to the 'dev' branch
