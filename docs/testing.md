@@ -19,8 +19,8 @@ Live in `tests/`. Currently:
 - `tests/claude-code/test-sdd-task-next.sh` — bash tests for SDD's `task-next` bookkeeping script.
 - `tests/claude-code/test-worktree-native-preference.sh` — RED-GREEN-REFACTOR validation for worktree skill (quorum covers the PRESSURE phase; bash also covers RED/GREEN baselines).
 - `tests/explicit-skill-requests/` — Haiku-specific, multi-turn, and skill-name-prompted tests not covered by quorum.
-- `tests/token-baseline/` — headless token/cost baseline harness: drives fixed builds through the full superpowers flow and attributes spend by phase, role and cost type (see its README for methodology and prompts).
-- `tests/diagnosing-superpowers/test-skill-structure.sh` — structural checks for the diagnosing-superpowers skill (frontmatter, referenced files, leak scan, word budget); behavior-scenario eval records are kept by the maintainer outside the repo.
+- `tests/token-baseline/` — headless token/cost baseline harness: drives fixed builds through the full budgetpowers flow and attributes spend by phase, role and cost type (see its README for methodology and prompts).
+- `tests/diagnosing-budgetpowers/test-skill-structure.sh` — structural checks for the diagnosing-budgetpowers skill (frontmatter, referenced files, leak scan, word budget); behavior-scenario eval records are kept by the maintainer outside the repo.
 
 Run plugin tests via the relevant directory's `run-*.sh` or `npm test`.
 
@@ -31,7 +31,7 @@ Live in `evals/` (the [superpowers-evals](https://github.com/prime-radiant-inc/s
 ```bash
 cd evals
 bun install
-export SUPERPOWERS_ROOT=/path/to/superpowers
+export BUDGETPOWERS_ROOT=/path/to/budgetpowers
 bun run quorum run scenarios/triggering-test-driven-development --coding-agent claude
 bun run quorum show <run-dir>
 ```

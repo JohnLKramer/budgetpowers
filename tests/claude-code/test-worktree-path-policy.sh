@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Regression check: Superpowers should not route new worktrees through the old
+# Regression check: Budgetpowers should not route new worktrees through the old
 # global worktree directory.
 
 set -euo pipefail
@@ -9,8 +9,8 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 USING_SKILL="$REPO_ROOT/skills/using-git-worktrees/SKILL.md"
 FINISHING_SKILL="$REPO_ROOT/skills/finishing-a-development-branch/SKILL.md"
-ROTOTILL_SPEC="$REPO_ROOT/docs/superpowers/specs/2026-04-06-worktree-rototill-design.md"
-ROTOTILL_PLAN="$REPO_ROOT/docs/superpowers/plans/2026-04-06-worktree-rototill.md"
+ROTOTILL_SPEC="$REPO_ROOT/docs/budgetpowers/specs/2026-04-06-worktree-rototill-design.md"
+ROTOTILL_PLAN="$REPO_ROOT/docs/budgetpowers/plans/2026-04-06-worktree-rototill.md"
 
 failures=0
 

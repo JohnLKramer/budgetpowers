@@ -1,6 +1,6 @@
 # Renaming Superpowers identifiers to Budgetpowers
 
-The prose rename is done: the product name reads "Budgetpowers" in `README.md`, `AGENTS.md` and `docs/testing.md`. This file lists what is left. Nothing here has been renamed.
+The prose rename is done, and classes 1 to 5 below are renamed. Classes 6 and 7 stay as upstream names on purpose. Historical files under `docs/plans/` and the entries in `RELEASE-NOTES.md` before this one are not rewritten.
 
 Counts are files that mention the string, taken on 2026-10-27 with:
 
@@ -26,7 +26,7 @@ Directories to move: `skills/using-superpowers/`, `skills/diagnosing-superpowers
 
 **If done halfway:** the session-start bootstrap loads `using-superpowers` by name. A half-renamed id stops skills from auto-triggering, and nothing says so. Rename the directory, the bootstrap hooks and the manifests in one change.
 
-- [ ] done
+- [x] done
 
 ## 2. Workspace and docs paths
 
@@ -37,7 +37,7 @@ Directories to move: `skills/using-superpowers/`, `skills/diagnosing-superpowers
 
 **If done halfway:** a run in flight keeps its ledger under the old directory and the renamed scripts will not find it, so the resume check starts the plan again. Rename between runs. Existing specs and plans move with `git mv`.
 
-- [ ] done
+- [x] done
 
 ## 3. Environment variables
 
@@ -45,15 +45,15 @@ Directories to move: `skills/using-superpowers/`, `skills/diagnosing-superpowers
 
 **If done halfway:** a user whose shell sets the old name has it ignored without a message. This repo's rule is to fail loudly rather than add a silent fallback, so decide whether the old name should error or just be dropped from the docs.
 
-- [ ] done
+- [x] done
 
 ## 4. Entry-point file names
 
-`.opencode/plugins/superpowers.js`, `.pi/extensions/superpowers.ts`, `assets/superpowers-small.svg`. The manifests and `tests/opencode/test-plugin-loading.sh` name these files.
+`.opencode/plugins/budgetpowers.js`, `.pi/extensions/superpowers.ts`, `assets/superpowers-small.svg`. The manifests and `tests/opencode/test-plugin-loading.sh` name these files.
 
 **If done halfway:** the harness loads nothing from the old path.
 
-- [ ] done
+- [x] done
 
 ## 5. Plugin and marketplace manifests
 
@@ -63,7 +63,7 @@ The tests that read them: `tests/antigravity/`, `tests/codex/`, `tests/codex-plu
 
 **If done halfway:** a manifest that names a skill or entry point that no longer exists fails at install time, and the manifest tests fail first.
 
-- [ ] done
+- [x] done
 
 ## 6. Upstream URLs and install commands: leave alone
 

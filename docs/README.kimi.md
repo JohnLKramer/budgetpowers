@@ -1,10 +1,10 @@
-# Superpowers for Kimi Code
+# Budgetpowers for Kimi Code
 
-Complete guide for using Superpowers with [Kimi Code](https://github.com/MoonshotAI/kimi-code).
+Complete guide for using Budgetpowers with [Kimi Code](https://github.com/MoonshotAI/kimi-code).
 
 ## Installation
 
-Superpowers is available in Kimi Code's plugin marketplace.
+Budgetpowers is available in Kimi Code's plugin marketplace.
 
 Open the plugin manager:
 
@@ -12,7 +12,7 @@ Open the plugin manager:
 /plugins
 ```
 
-Go to `Marketplace` > `Superpowers` and install it.
+Go to `Marketplace` > `Budgetpowers` and install it.
 
 You can also install from this repository:
 
@@ -35,10 +35,10 @@ The Kimi plugin manifest lives at `.kimi-plugin/plugin.json`.
 The manifest does three things:
 
 1. Points Kimi Code at the existing `skills/` directory.
-2. Loads `using-superpowers` at session start through `sessionStart.skill`.
+2. Loads `using-budgetpowers` at session start through `sessionStart.skill`.
 3. Provides Kimi-specific tool mapping through `skillInstructions`.
 
-Kimi Code reads Superpowers skills from this repository. There are no copied skills, symlinks, hooks, or extra runtime dependencies.
+Kimi Code reads Budgetpowers skills from this repository. There are no copied skills, symlinks, hooks, or extra runtime dependencies.
 
 ## Tool Mapping
 
@@ -63,19 +63,19 @@ Use Kimi Code's plugin manager:
 /plugins
 ```
 
-Select Superpowers and update it from there. Start a fresh session with `/new` after updating.
+Select Budgetpowers and update it from there. Start a fresh session with `/new` after updating.
 
 ## Troubleshooting
 
 ### Plugin not loading
 
-1. Run `/plugins info superpowers` and check diagnostics.
+1. Run `/plugins info budgetpowers` and check diagnostics.
 2. Make sure the plugin is enabled.
 3. Start a fresh session with `/new` after install or update.
 
 ### Direct GitHub install used an old release
 
-Kimi Code installs the latest GitHub release for a bare repository URL when one exists. To test unreleased changes before the next Superpowers release, install the branch explicitly:
+Kimi Code installs the latest GitHub release for a bare repository URL when one exists. To test unreleased changes before the next Budgetpowers release, install the branch explicitly:
 
 ```text
 /plugins install https://github.com/obra/superpowers/tree/dev
@@ -83,6 +83,6 @@ Kimi Code installs the latest GitHub release for a bare repository URL when one 
 
 ### Skills not triggering
 
-1. Confirm `/plugins info superpowers` shows the plugin enabled.
+1. Confirm `/plugins info budgetpowers` shows the plugin enabled.
 2. Start a fresh session with `/new`.
 3. Try the acceptance prompt: `Let's make a react todo list`. A working install should load `brainstorming` before writing code.

@@ -55,7 +55,7 @@ PLAN
     ( cd "$repo" && git add plan.md && git "${git_id[@]}" commit -qm fixture )
     local base
     base="$(cd "$repo" && git rev-parse HEAD)"
-    local ws="$repo/.superpowers/sdd/plan"
+    local ws="$repo/.budgetpowers/sdd/plan"
     local ledger="$ws/progress.md"
 
     local rc out

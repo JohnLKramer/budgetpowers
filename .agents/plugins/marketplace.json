@@ -1,11 +1,11 @@
 {
-  "name": "superpowers-dev",
+  "name": "budgetpowers-dev",
   "interface": {
-    "displayName": "Superpowers Dev"
+    "displayName": "Budgetpowers Dev"
   },
   "plugins": [
     {
-      "name": "superpowers",
+      "name": "budgetpowers",
       "source": {
         "source": "url",
         "url": "./"

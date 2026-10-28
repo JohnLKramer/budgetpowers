@@ -198,7 +198,7 @@ write_upstream_fixture() {
 EOF
 
     cat > "$repo/index.js" <<'EOF'
-export { default } from "./.opencode/plugins/superpowers.js";
+export { default } from "./.opencode/plugins/budgetpowers.js";
 EOF
 
     cat > "$repo/.gitignore" <<'EOF'
@@ -230,28 +230,28 @@ EOF
 
     cat > "$repo/.codex-plugin/plugin.json" <<EOF
 {
-  "name": "superpowers",
+  "name": "budgetpowers",
   "version": "$MANIFEST_VERSION"
 }
 EOF
 
     cat > "$repo/.kimi-plugin/plugin.json" <<EOF
 {
-  "name": "superpowers",
+  "name": "budgetpowers",
   "version": "$MANIFEST_VERSION"
 }
 EOF
 
     cat > "$repo/.antigravity-plugin/plugin.json" <<EOF
 {
-  "name": "superpowers",
+  "name": "budgetpowers",
   "version": "$MANIFEST_VERSION"
 }
 EOF
 
     printf 'antigravity png fixture\n' > "$repo/assets/antigravity-logo.png"
 
-    cat > "$repo/assets/superpowers-small.svg" <<'EOF'
+    cat > "$repo/assets/budgetpowers-small.svg" <<'EOF'
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"></svg>
 EOF
 
@@ -313,7 +313,7 @@ EOF
         .pre-commit-config.yaml \
         assets/antigravity-logo.png \
         assets/app-icon.png \
-        assets/superpowers-small.svg \
+        assets/budgetpowers-small.svg \
         evals/drill/README.md \
         hooks/hooks-codex.json \
         hooks/run-hook.cmd \
@@ -383,12 +383,12 @@ write_synced_destination_fixture() {
 
     cat > "$repo/plugins/superpowers/.codex-plugin/plugin.json" <<EOF
 {
-  "name": "superpowers",
+  "name": "budgetpowers",
   "version": "$MANIFEST_VERSION"
 }
 EOF
 
-    cat > "$repo/plugins/superpowers/assets/superpowers-small.svg" <<'EOF'
+    cat > "$repo/plugins/superpowers/assets/budgetpowers-small.svg" <<'EOF'
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"></svg>
 EOF
 
@@ -445,7 +445,7 @@ EOF
     git -C "$repo" add \
         plugins/superpowers/.codex-plugin/plugin.json \
         plugins/superpowers/assets/app-icon.png \
-        plugins/superpowers/assets/superpowers-small.svg \
+        plugins/superpowers/assets/budgetpowers-small.svg \
         plugins/superpowers/hooks/hooks-codex.json \
         plugins/superpowers/hooks/run-hook.cmd \
         plugins/superpowers/hooks/session-start \
@@ -671,7 +671,7 @@ main() {
     assert_not_contains "$preview_section" ".kimi-plugin/plugin.json" "Preview excludes Kimi manifest from Codex sync"
     assert_not_contains "$preview_section" ".antigravity-plugin/plugin.json" "Preview excludes Antigravity manifest from Codex sync"
     assert_not_contains "$preview_section" "assets/antigravity-logo.png" "Preview excludes Antigravity logo from Codex sync"
-    assert_contains "$preview_section" "assets/superpowers-small.svg" "Preview includes SVG asset"
+    assert_contains "$preview_section" "assets/budgetpowers-small.svg" "Preview includes SVG asset"
     assert_contains "$preview_section" "assets/app-icon.png" "Preview includes PNG asset"
     assert_contains "$preview_section" "hooks/hooks-codex.json" "Preview includes Codex hook manifest"
     assert_contains "$preview_section" "hooks/session-start" "Preview includes session-start hook"
@@ -685,11 +685,11 @@ main() {
     assert_not_contains "$preview_section" ".pre-commit-config.yaml" "Preview excludes repo pre-commit config"
     assert_not_contains "$preview_section" "index.js" "Preview excludes OpenCode root entrypoint"
     assert_not_contains "$preview_output" "Overlay file (.codex-plugin/plugin.json) will be regenerated" "Preview omits overlay regeneration note"
-    assert_not_contains "$preview_output" "Assets (superpowers-small.svg, app-icon.png) will be seeded from" "Preview omits assets seeding note"
+    assert_not_contains "$preview_output" "Assets (budgetpowers-small.svg, app-icon.png) will be seeded from" "Preview omits assets seeding note"
     assert_contains "$preview_section" "skills/example/SKILL.md" "Preview reflects dirty tracked destination file"
     assert_not_matches "$preview_section" "\\*deleting +skills/example/agents/openai\\.yaml" "Preview preserves destination-owned OpenAI agent metadata"
     assert_current_branch "$dest" "$dest_branch" "Preview leaves destination checkout on its original branch"
-    assert_branch_absent "$dest" "sync/superpowers-*" "Preview does not create sync branch in destination checkout"
+    assert_branch_absent "$dest" "sync/budgetpowers-*" "Preview does not create sync branch in destination checkout"
 
     echo ""
     echo "Mixed-directory assertions..."
@@ -711,21 +711,21 @@ main() {
     assert_contains "$bootstrap_output" "Dry run only. Nothing was changed or pushed." "Bootstrap preview remains dry-run only"
     assert_path_absent "$bootstrap_dest/plugins/superpowers" "Bootstrap preview does not create destination plugin directory"
     assert_current_branch "$bootstrap_dest" "$bootstrap_dest_branch" "Bootstrap preview leaves destination checkout on its original branch"
-    assert_branch_absent "$bootstrap_dest" "bootstrap/superpowers-*" "Bootstrap preview does not create bootstrap branch in destination checkout"
+    assert_branch_absent "$bootstrap_dest" "bootstrap/budgetpowers-*" "Bootstrap preview does not create bootstrap branch in destination checkout"
 
     echo ""
     echo "Apply assertions..."
     assert_equals "$dirty_apply_status" "1" "Dirty local apply exits with failure"
     assert_contains "$dirty_apply_output" "ERROR: local checkout has uncommitted changes under 'plugins/superpowers'" "Dirty local apply reports protected destination path"
     assert_current_branch "$dirty_apply_dest" "$dirty_apply_dest_branch" "Dirty local apply leaves destination checkout on its original branch"
-    assert_branch_absent "$dirty_apply_dest" "sync/superpowers-*" "Dirty local apply does not create sync branch in destination checkout"
+    assert_branch_absent "$dirty_apply_dest" "sync/budgetpowers-*" "Dirty local apply does not create sync branch in destination checkout"
     assert_file_equals "$dirty_skill_path" "# Example Skill
 
 Locally modified fixture content." "Dirty local apply preserves tracked working-tree file content"
     assert_equals "$noop_apply_status" "0" "Clean no-op local apply exits successfully"
     assert_contains "$noop_apply_output" "No changes — embedded plugin was already in sync with upstream" "Clean no-op local apply reports no changes"
     assert_current_branch "$noop_apply_dest" "$noop_apply_dest_branch" "Clean no-op local apply leaves destination checkout on its original branch"
-    assert_branch_absent "$noop_apply_dest" "sync/superpowers-*" "Clean no-op local apply does not create sync branch in destination checkout"
+    assert_branch_absent "$noop_apply_dest" "sync/budgetpowers-*" "Clean no-op local apply does not create sync branch in destination checkout"
     assert_file_equals "$noop_openai_metadata_path" "interface:
   display_name: \"Example\"
   short_description: \"Destination-owned OpenAI metadata\"" "Clean no-op local apply preserves OpenAI agent metadata"

@@ -1,8 +1,9 @@
 .worktrees/
 .private-journal/
 .claude/
-.superpowers/
+.budgetpowers/
 .DS_Store
+.idea
 node_modules/
 inspo
 triage/
