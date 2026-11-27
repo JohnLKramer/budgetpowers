@@ -24,3 +24,6 @@ scratch/
 
 # Git internals for this in-place working tree
 .bare/
+
+# Agent session handoffs and plans
+nimbalyst-local/
