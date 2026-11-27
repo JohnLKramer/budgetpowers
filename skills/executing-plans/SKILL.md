@@ -238,9 +238,9 @@ Run `../subagent-driven-development/scripts/review-package PLAN_FILE MERGE_BASE 
 `git merge-base main HEAD`) and review from the file it prints.
 
 **With a subagent tool:** dispatch the reviewer on the most capable
-available model — the whole-branch review is a judgment task — using
-budgetpowers:requesting-code-review's
-[code-reviewer.md](../requesting-code-review/code-reviewer.md), with the
+available model — the whole-branch review is a judgment task — using the
+reviewer chosen per budgetpowers:requesting-code-review's
+[choosing-the-reviewer.md](../requesting-code-review/choosing-the-reviewer.md), with the
 package path, the plan and spec paths, the plan's Review Focus section
 verbatim if it has one (the input classes and failure modes the plan's
 tests do not exercise — the reviewer checks each deliberately), and a
@@ -251,9 +251,10 @@ most capable. This is the one fresh context the whole run buys. Do not
 skip it, and do not replace it with your own read of the diff.
 
 **Without a subagent tool:** read code-reviewer.md and perform that review
-yourself against the package, as a separate pass after the last task's
-ledger line. Write `Final review: self-review (no subagent tool)` to the
-ledger, and say so in your final message: a self-review by the author is
+yourself against the package (applying the reviewer chosen per
+choosing-the-reviewer.md), as a separate pass after the last task's
+ledger line. Write `Final: reviewer: …` and
+`Final review: self-review (no subagent tool)` to the ledger, and say so in your final message: a self-review by the author is
 weaker than a fresh reviewer, and your human partner decides whether that
 is enough before merge.
 
