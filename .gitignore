@@ -1,8 +1,9 @@
 .worktrees/
 .private-journal/
 .claude/
-.superpowers/
+.budgetpowers/
 .DS_Store
+.idea
 node_modules/
 inspo
 triage/
@@ -17,3 +18,9 @@ __pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
+
+# Local token-usage experiments (baseline runs, harness)
+scratch/
+
+# Git internals for this in-place working tree
+.bare/

@@ -212,7 +212,7 @@ assert_command_output \
     "SessionStart omits obsolete legacy custom-skill warning" \
     "nested" \
     "" \
-    "Superpowers now uses"$'\037'"~/.config/superpowers/skills"$'\037'"~/.claude/skills"$'\037'"legacy" \
+    "Budgetpowers now uses"$'\037'"~/.config/superpowers/skills"$'\037'"~/.claude/skills"$'\037'"legacy" \
     "$legacy_home" \
     CLAUDE_PLUGIN_ROOT="$REPO_ROOT" \
     bash "$HOOK_UNDER_TEST"
@@ -289,7 +289,7 @@ assert_command_output \
     "session-start reached through a backslash path still reads the skill" \
     "nested" \
     "" \
-    "Error reading using-superpowers skill" \
+    "Error reading using-budgetpowers skill" \
     "$backslash_home" \
     CLAUDE_PLUGIN_ROOT="$REPO_ROOT" \
     "$bash_bin" -c 'cd "$1" && exec "$2" "$3"' _ "$backslash_cwd" "$bash_bin" "$backslash_hook"

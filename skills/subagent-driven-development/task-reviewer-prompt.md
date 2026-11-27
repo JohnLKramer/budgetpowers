@@ -7,6 +7,12 @@ code quality.
 **Purpose:** Verify one task's implementation matches its requirements (nothing
 more, nothing less) and is well-built (clean, tested, maintainable)
 
+**Dispatched by reference.** If your dispatch told you to read this file, the
+`prompt:` block below is your instructions. Ignore the `Subagent`,
+`description:` and `model:` lines; they are for the controller. Fill each
+`[PLACEHOLDER]` from the `NAME=value` pairs and the `GLOBAL_CONSTRAINTS` text
+in your dispatch message.
+
 ```
 Subagent (general-purpose):
   description: "Review Task N (spec + quality)"
@@ -189,7 +195,7 @@ Subagent (general-purpose):
 
 **Placeholders:**
 - `[MODEL]` — REQUIRED: reviewer model per SKILL.md Model Selection
-- `[BRIEF_FILE]` — REQUIRED: the task brief file (`bash scripts/task-brief PLAN N`
+- `[BRIEF_FILE]` — REQUIRED: the task brief file (`bash scripts/task-next PLAN --start N`
   prints the path; same file the implementer worked from)
 - `[GLOBAL_CONSTRAINTS]` — the binding requirements copied verbatim from
   the plan's Global Constraints section or the spec: exact values, formats,

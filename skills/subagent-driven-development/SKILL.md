@@ -32,29 +32,8 @@ stop and ask.
 
 ## When to Use
 
-```dot
-digraph when_to_use {
-    "Have implementation plan?" [shape=diamond];
-    "Tasks mostly independent?" [shape=diamond];
-    "Partner chose inline, or no subagent tool?" [shape=diamond];
-    "subagent-driven-development" [shape=box];
-    "executing-plans" [shape=box];
-    "Manual execution or brainstorm first" [shape=box];
-
-    "Have implementation plan?" -> "Tasks mostly independent?" [label="yes"];
-    "Have implementation plan?" -> "Manual execution or brainstorm first" [label="no"];
-    "Tasks mostly independent?" -> "Partner chose inline, or no subagent tool?" [label="yes"];
-    "Tasks mostly independent?" -> "Manual execution or brainstorm first" [label="no - tightly coupled"];
-    "Partner chose inline, or no subagent tool?" -> "executing-plans" [label="yes"];
-    "Partner chose inline, or no subagent tool?" -> "subagent-driven-development" [label="no"];
-}
-```
-
-**vs. Executing Plans (inline):**
-- Fresh subagent per task (no context pollution) instead of one context doing every task
-- Review after each task (spec compliance + code quality) instead of only at the end
-- Costs a fresh context per task and per review; inline costs one context plus one final reviewer
-- Both run in this session, share the same plan workspace and ledger, and never pause between tasks
+Choosing between this skill and executing-plans: read
+[references/when-to-use.md](references/when-to-use.md).
 
 ## The Process
 
@@ -78,7 +57,7 @@ digraph process {
     "More tasks remain?" [shape=diamond];
     "Final review and finish: read references/final-review.md" [shape=box];
     "Final review clean: delete this plan's workspace" [shape=box];
-    "Use superpowers:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
+    "Use budgetpowers:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
 
     "Setup: worktree, ledger check, read plan, pre-flight review" -> "Dispatch implementer subagent (./implementer-prompt.md)";
     "Dispatch implementer subagent (./implementer-prompt.md)" -> "Implementer asks questions?";
@@ -94,14 +73,14 @@ digraph process {
     "More tasks remain?" -> "Dispatch implementer subagent (./implementer-prompt.md)" [label="yes"];
     "More tasks remain?" -> "Final review and finish: read references/final-review.md" [label="no"];
     "Final review and finish: read references/final-review.md" -> "Final review clean: delete this plan's workspace";
-    "Final review clean: delete this plan's workspace" -> "Use superpowers:finishing-a-development-branch";
+    "Final review clean: delete this plan's workspace" -> "Use budgetpowers:finishing-a-development-branch";
 }
 ```
 
 ## Setup
 
 Ensure the work happens in an isolated workspace: use
-superpowers:using-git-worktrees to create one or verify the existing one.
+budgetpowers:using-git-worktrees to create one or verify the existing one.
 Never start implementation on a main/master branch without your human
 partner's explicit consent.
 
@@ -112,7 +91,7 @@ a ledger file, not only in todos.
 
 - Each plan owns a workspace: at skill start, run this skill's
   `bash scripts/sdd-workspace PLAN_FILE` — it prints the plan's git-ignored
-  directory (under `<repo-root>/.superpowers/sdd/`), home to
+  directory (under `<repo-root>/.budgetpowers/sdd/`), home to
   every artifact for THIS plan: ledger, briefs, reports, review packages.
   Another plan's directory is never yours to read or write.
 - Check for this plan's ledger at `<workspace>/progress.md`. If one exists,
@@ -196,21 +175,25 @@ child is noticed within minutes, not at the end of the session.
 
 ### 1. Dispatch the implementer
 
-Record BASE (`git rev-parse HEAD`) before dispatching — the review package
-and fix-round diffs need it.
+Before dispatching, run this skill's `bash scripts/task-next PLAN_FILE --start N`.
+In one call it extracts the task's full text to a uniquely named brief file
+and records BASE, and it prints both (`brief: <path>`, `base: <sha>`). Keep
+BASE — the review package and fix-round diffs need it.
 
-- **Task brief:** before dispatching an implementer, run this skill's
-  `bash scripts/task-brief PLAN_FILE N` — it extracts the task's full text to a
-  uniquely named file and prints the path. Compose the dispatch so the
-  brief stays the single source of
-  requirements. Your dispatch should contain: (1) one line on where this
-  task fits in the project; (2) the brief path, introduced as "read this
-  first — it is your requirements, with the exact values to use verbatim";
-  (3) interfaces and decisions from earlier tasks that the brief cannot
-  know; (4) your resolution of any ambiguity you noticed in the brief;
-  (5) the report-file path and report contract. Exact values (numbers,
-  magic strings, signatures, test cases) appear only in the brief. Never
-  make a subagent read the whole plan file.
+- **Dispatch by reference:** the dispatch prompt is a fixed short form, not
+  the filled-in template. The subagent reads the template itself, as input
+  on its own model, instead of you writing it out as output on yours:
+
+  `Read <skill dir>/implementer-prompt.md, then your brief at <brief path>. Report to <report path>. Work from <dir>. You never dispatch subagents. Deltas: <3–5 lines>.`
+
+  `<skill dir>` is this skill's absolute directory. The model and
+  description go on the dispatch call, never in the prompt text.
+- **Task brief:** the file `task-next` printed stays the single source of
+  requirements. The Deltas carry only what the brief cannot know: one line
+  on where this task fits in the project; interfaces and decisions from
+  earlier tasks; your resolution of any ambiguity you noticed in the
+  brief. Exact values (numbers, magic strings, signatures, test cases)
+  appear only in the brief. Never make a subagent read the whole plan file.
 - **Report file:** name the implementer's report file after the brief
   (brief `…/task-N-brief.md` → report `…/task-N-report.md`) and put it in
   the dispatch prompt. The implementer writes the full report there and
@@ -220,8 +203,8 @@ and fix-round diffs need it.
   later dispatches — a real session's dispatch hit 42k chars of which 99%
   was pasted history. A fresh subagent needs its task, the interfaces it
   touches, and the global constraints. Nothing else.
-- The dispatch carries the no-subagents contract (it is in the
-  implementer template): the implementer never dispatches subagents —
+- The dispatch carries the no-subagents contract in one line, and the
+  implementer template carries the full text: the implementer never dispatches subagents —
   not helpers, and never a reviewer. Review arrives from you, after the
   report. In real sessions, every reviewer a worker spawned duplicated
   the task review the controller dispatched anyway — a full extra
@@ -238,7 +221,7 @@ Template: [implementer-prompt.md](implementer-prompt.md)
 
 Implementer subagents report one of four statuses. Handle each appropriately:
 
-**DONE:** Generate the review package (`bash scripts/review-package PLAN_FILE BASE HEAD`, from this skill's directory — it prints the unique file path it wrote; BASE is the commit you recorded before dispatching the implementer — never `HEAD~1`, which silently drops all but the last commit of a multi-commit task), then dispatch the task reviewer with the printed path.
+**DONE:** Generate the review package (`bash scripts/review-package PLAN_FILE BASE HEAD`, from this skill's directory — it prints the unique file path it wrote; BASE is the commit `task-next --start` printed before the implementer was dispatched — never `HEAD~1`, which silently drops all but the last commit of a multi-commit task), then dispatch the task reviewer with the printed path.
 
 **Any other status** (DONE_WITH_CONCERNS, NEEDS_CONTEXT, BLOCKED): read
 [references/handling-reports.md](references/handling-reports.md) and follow
@@ -262,12 +245,19 @@ needed.
   and `git diff -U10` for the range, redirected to one uniquely named
   file). The output never enters your own context, and the reviewer sees
   the commit list, stat summary, and full diff with context in one Read
-  call. Use the BASE you recorded before dispatching the implementer —
-  never `HEAD~1`, which silently truncates multi-commit tasks. Never
+  call. Use the BASE `task-next --start` printed before the implementer
+  was dispatched — never `HEAD~1`, which silently truncates multi-commit tasks. Never
   dispatch a task reviewer without a diff file.
 - **Reviewer inputs:** the task reviewer gets three paths — the same brief
   file, the report file, and the review package — plus the global
   constraints that bind the task.
+- **Dispatch by reference:** as for the implementer, the reviewer's
+  dispatch prompt is a fixed short form, and the reviewer reads the
+  template itself:
+
+  `Read <skill dir>/task-reviewer-prompt.md. BRIEF_FILE=<path> REPORT_FILE=<path> DIFF_FILE=<path> BASE_SHA=<sha> HEAD_SHA=<sha>. GLOBAL_CONSTRAINTS: <verbatim lines>.`
+
+  The model and description go on the dispatch call, never in the prompt text.
 - The global-constraints block you hand the reviewer is its attention
   lens. Copy the binding requirements verbatim from the plan's Global
   Constraints section or the spec: exact values, exact formats, and the
@@ -304,12 +294,15 @@ round writes, and your memory of it does not survive compaction.
 ### 5. Complete the task
 
 When the review comes back clean — or every open finding is parked with a
-ruling at the cap — append the completion line to the ledger in the same
-message as your other bookkeeping:
+ruling at the cap — run this skill's
+`bash scripts/task-next PLAN_FILE --complete N "review clean"`, or
+`--complete N "<K> parked"` after a tripped breaker. It appends
+`Task <N>: complete (commits <base7>..<head7>, <result>)` to the ledger and
+refuses to record a task it never saw started.
 
-- `Task <N>: complete (commits <base7>..<head7>, review clean)`
-- `Task <N>: complete (commits <base7>..<head7>, <K> parked)` after a
-  tripped breaker
+When another task remains, add `--start N+1` to the same call: it prints the
+next task's brief path and BASE, so the boundary costs one call. After the
+last task, `--complete` alone.
 
 Then mark the todo complete and move on. Never move to the next task while
 the review has open Critical/Important issues that are neither fixed nor

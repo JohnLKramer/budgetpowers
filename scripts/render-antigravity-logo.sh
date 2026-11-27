@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 #
-# Render the Antigravity Marketplace logo from assets/superpowers-small.svg.
+# Render the Antigravity Marketplace logo from assets/budgetpowers-small.svg.
 #
 # Usage:
 #   scripts/render-antigravity-logo.sh [--output PATH]
 #
-# Draws the Superpowers mark in near-black on a white rounded square with
-# transparent corners, 512x512 PNG. Run it whenever superpowers-small.svg
+# Draws the Budgetpowers mark in near-black on a white rounded square with
+# transparent corners, 512x512 PNG. Run it whenever budgetpowers-small.svg
 # changes; tests/antigravity/test-logo.sh fails if the committed PNG is stale.
 # Requires rsvg-convert (Homebrew: librsvg).
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-SOURCE_SVG="$REPO_ROOT/assets/superpowers-small.svg"
+SOURCE_SVG="$REPO_ROOT/assets/budgetpowers-small.svg"
 OUTPUT="$REPO_ROOT/assets/antigravity-logo.png"
 
 usage() {

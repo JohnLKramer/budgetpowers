@@ -29,7 +29,7 @@ Before you start implementing, you must, in order:
    human partner pick one (see Lay out the approaches).
 2. Write the design doc, short or full (see Size the Work).
 3. Get their approval of that doc.
-4. Invoke the superpowers:writing-plans skill.
+4. Invoke the budgetpowers:writing-plans skill.
 
 Two things aren't implementing: a spike they said yes to (see Spike to
 feel things out), and doing what they asked once they've opted out of
@@ -222,11 +222,15 @@ or two each and goes straight to your human partner, without the
 builder check.
 
 **Where it goes:** in a software repo,
-`docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`, committed.
+`docs/budgetpowers/specs/YYYY-MM-DD-<topic>-design.md`, committed.
 Otherwise, ask. Your human partner's preferences override both.
 
-**Builder check** (for a project): dispatch a fresh subagent with
-`builder-check-prompt.md` in this directory. When you tell your human
+**Builder check** (for a project): when the design has more than one
+component, or new interfaces other people depend on, dispatch a fresh
+subagent with `builder-check-prompt.md` in this directory. A project with a
+single component and no such interfaces skips the dispatch: read the
+document as that builder yourself, and sort what you'd ask into the piles
+below. If you dispatch, when you tell your human
 partner you're writing it up, say a reviewer will read it first and you
 may come back once with a few questions. Don't hand over the document
 until the check is back. Sort what the builder asks into three piles:
@@ -257,7 +261,7 @@ stays labeled throwaway, and keeping what it produced is a new request
 that comes back through this gate.
 
 After the design doc is approved, the next step is the plan: invoke
-superpowers:writing-plans and no other skill.
+budgetpowers:writing-plans and no other skill.
 </HARD-GATE>
 
 ## Red Flags

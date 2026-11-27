@@ -29,25 +29,25 @@ add a comment or reaction to the existing one instead.
 
 | Field | Value |
 |-------|-------|
-| Superpowers version | |
+| Budgetpowers version | |
 | Harness (Claude Code, Cursor, etc.) | |
 | Harness version | |
 | Your model + version | |
 | All plugins installed | |
 | OS + shell | |
 
-## Is this a Superpowers issue or a platform issue?
-<!-- Superpowers is a plugin. Some reported "bugs" are actually issues
+## Is this a Budgetpowers issue or a platform issue?
+<!-- Budgetpowers is a plugin. Some reported "bugs" are actually issues
      in the underlying platform or model. If you're not sure, try
-     reproducing without Superpowers installed.
+     reproducing without Budgetpowers installed.
 
-     If the problem persists without Superpowers, file the issue with
+     If the problem persists without Budgetpowers, file the issue with
      your platform instead. -->
 
-- [ ] I confirmed this issue does not occur without Superpowers installed
+- [ ] I confirmed this issue does not occur without Budgetpowers installed
 
-How I verified that this issue does not reproduce without Superpowers:
-<!-- What you ran without Superpowers and what happened. "Not tried" is
+How I verified that this issue does not reproduce without Budgetpowers:
+<!-- What you ran without Budgetpowers and what happened. "Not tried" is
      an honest answer; a ticked box with nothing here is not. -->
 
 ## What happened?

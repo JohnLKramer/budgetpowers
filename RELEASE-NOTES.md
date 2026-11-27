@@ -1,5 +1,13 @@
 # Superpowers Release Notes
 
+## Unreleased
+
+### Renamed to Budgetpowers
+
+- The plugin, skill ids (`budgetpowers:<skill>`), the `using-budgetpowers` bootstrap, the `.budgetpowers/` workspace, the `docs/budgetpowers/` paths and the `BUDGETPOWERS_*` env vars replace the `superpowers` names. Budgetpowers now installs next to upstream Superpowers without a collision.
+- `SUPERPOWERS_*` env vars are no longer read. Set the `BUDGETPOWERS_*` name instead.
+- Upstream repository URLs and install commands are unchanged.
+
 ## v7.0.1 (2026-10-21)
 
 This release retunes brainstorming after its rebuild in v7.0.0. Many of you told us, rightly, that the new default questions got annoying fast and felt formulaic. Brainstorming now digs for context before it asks anything, and tries to ask better questions. We expect to keep tuning it, but we think it's better than it was.

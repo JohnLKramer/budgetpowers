@@ -1,6 +1,6 @@
-name: superpowers
+name: budgetpowers
 version: 7.0.1
-description: Superpowers skills and workflow bootstrap for Hermes Agent
+description: Budgetpowers skills and workflow bootstrap for Hermes Agent
 author: obra
 provides_hooks:
   - pre_llm_call
