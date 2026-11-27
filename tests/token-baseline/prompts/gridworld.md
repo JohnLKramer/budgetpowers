@@ -1,0 +1,3 @@
+/budgetpowers:brainstorming
+
+Build a Python 3.12 project `gridworld`: a deterministic grid simulation. A rectangular grid (configurable width/height) has walls, a goal cell, and one agent. The agent takes actions up/down/left/right; moves into walls or off-grid leave it in place. Each step returns (state, reward, done): -1 per step, +10 on reaching the goal. Load the grid from a simple text map (`#` wall, `A` agent, `G` goal, `.` empty). Provide a CLI that runs a given action sequence or a random policy with a seed and prints the grid each step. pytest tests, uv/pyproject layout, no external runtime deps.
